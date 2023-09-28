@@ -65,7 +65,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 		convertId, err := strconv.Atoi(id)
 		if err != nil {
-			log.Println("DEU BIGODE no id!", err)
+			log.Println("Erro ao converter no id!", err)
 		}
 
 		convertedPrice, err := strconv.ParseFloat(price, 64)
