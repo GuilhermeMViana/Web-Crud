@@ -45,6 +45,40 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 
 func Delete(w http.ResponseWriter, r *http.Request) {
 	productId := r.URL.Query().Get("id")
-	models.DeletProduct(productId)
+	models.DeleteProduct(productId)
+	http.Redirect(w, r, "/", 301)
+}
+
+func Edit(w http.ResponseWriter, r *http.Request) {
+	productId := r.URL.Query().Get("id")
+	product := models.EditProduct(productId)
+	templates.ExecuteTemplate(w, "Edit", product)
+}
+
+func Update(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		id := r.FormValue("id")
+		name := r.FormValue("nome")
+		description := r.FormValue("descricao")
+		price := r.FormValue("preco")
+		quantity := r.FormValue("quantidade")
+
+		convertId, err := strconv.Atoi(id)
+		if err != nil {
+			log.Println("DEU BIGODE no id!", err)
+		}
+
+		convertedPrice, err := strconv.ParseFloat(price, 64)
+
+		if err != nil {
+			log.Println("Erro na conversão do preço:", err)
+		}
+		convertedQuantity, err := strconv.Atoi(quantity)
+		if err != nil {
+			log.Println("Erro na conversão da quantidade:", err)
+		}
+
+		models.UpdateProduct(name, description, convertedPrice, convertedQuantity, convertId)
+	}
 	http.Redirect(w, r, "/", 301)
 }
