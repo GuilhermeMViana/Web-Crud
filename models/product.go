@@ -91,6 +91,7 @@ func EditProduct(productId string) Product {
 			panic(err.Error())
 		}
 
+		attProduct.Id = id
 		attProduct.Name = name
 		attProduct.Description = description
 		attProduct.Price = price
